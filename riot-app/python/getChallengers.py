@@ -5,8 +5,11 @@ user = "dbuser"
 password = "dbpass"
 table = "challengers"
 
+#Ask to enter API key 
+api_key = raw_input("Please enter Riot API key: ")
+
 #Pull from challenger list, which has 200 players
-playerListUrl = "https://na.api.pvp.net/api/lol/na/v2.5/league/challenger?type=RANKED_SOLO_5x5&api_key=90b9a55c-a201-4c04-82f3-daa7e4faf715"
+playerListUrl = "https://na.api.pvp.net/api/lol/na/v2.5/league/challenger?type=RANKED_SOLO_5x5&api_key=" + api_key
 listResponse = urllib.urlopen(playerListUrl)
 #playerListData holds our JSON. 1 call for all 200 player Ids
 playerListData = json.loads(listResponse.read())
@@ -47,7 +50,7 @@ if __name__ == "__main__":
     listlength = len(playerListData["entries"])
     for i in range(1, listlength):
         playerId = playerListData["entries"][i]["playerOrTeamId"]
-        masteryUrl = "https://na.api.pvp.net/championmastery/location/NA1/player/" + playerId + "/champions?api_key=90b9a55c-a201-4c04-82f3-daa7e4faf715"
+        masteryUrl = "https://na.api.pvp.net/championmastery/location/NA1/player/" + playerId + "/champions?api_key=" + api_key
         masteryData = rateLimitUrl(masteryUrl)
         masteryLength = len(masteryData)
         for j in range(1, masteryLength):
@@ -60,6 +63,6 @@ if __name__ == "__main__":
             try:  
                 cur.execute("INSERT INTO " + table +" VALUES (" + tablekey + ", " + playerId + ", '" + playerRank + "', " + championId + ", " + championPoints + ", " + championLevel + ");")
                 print "Row added for: " + str(playerId)
-                conn.commit()
+                #conn.commit()
             except Exception,e:
                 print str(e)
