@@ -1,8 +1,39 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 14px 'Roboto', sans-serif;
+}
+h1, h2, h3, h4, h5 {
+  font-family: 'Roboto Slab', serif;
+  font-weight: 600;
 }
 
 a {
   color: #00B7FF;
+}
+
+.loading-indicator {
+  display: inline-block;
+  background: yellow;
+  padding: 12px 24px;
+  border-radius: 4px;
+  -webkit-animation: loadpulse 1s infinite;
+  -moz-animation:    loadpulse 1s infinite;
+  -o-animation:      loadpulse 1s infinite;
+  animation:         loadpulse 1s infinite;
+}
+
+@-webkit-keyframes loadpulse {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
+}
+@-moz-keyframes loadpulse {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
+}
+@-o-keyframes loadpulse {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
+}
+@keyframes loadpulse {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
 }
