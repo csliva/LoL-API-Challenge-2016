@@ -1,8 +1,8 @@
 import urllib, json, psycopg2,time
 #Enter database Information
 dbname = "riotdb"
-user = "dbuser"
-password = "dbpass"
+user = "postgres"
+password = "spitfire7*"
 table = "challengers"
 
 #Ask to enter API key 
