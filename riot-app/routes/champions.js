@@ -18,7 +18,7 @@ router.get('/championlist', function(req, res, next) {
         }
 
         // SQL Query > Select Data
-        var query = client.query("select * from challengers;");
+        var query = client.query("select * from challengers limit 10;");
 
         // Stream results back one row at a time
         query.on('row', function(row) {
