@@ -54,11 +54,7 @@ router.get('/championlist/:limit/:offset', function(req, res, next) {
         }
 
         // SQL Query > Select Data
-<<<<<<< HEAD
         var query = client.query("select * from challengers limit 10;");
-=======
-        var query = client.query("SELECT * FROM challengers ORDER BY tablekey LIMIT "+postLimit+" OFFSET "+postOffset+";");
->>>>>>> feature/react-frontend
 
         // Stream results back one row at a time
         query.on('row', function(row) {
