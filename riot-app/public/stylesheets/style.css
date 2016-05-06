@@ -1,39 +1,108 @@
+html,
+body {
+ height: 100%;	
+}
 body {
   font: 14px 'Roboto', sans-serif;
+  background: url(../images/hunt-bg-opt.jpg) no-repeat center center fixed;
+  background-size: cover;
+  padding: 30px;
 }
 h1, h2, h3, h4, h5 {
-  font-family: 'Roboto Slab', serif;
+  font-family: 'Alegreya SC', serif;
   font-weight: 600;
+  color: #e5c808;
 }
 
 a {
   color: #00B7FF;
 }
 
-.loading-indicator {
-  display: inline-block;
-  background: yellow;
-  padding: 12px 24px;
-  border-radius: 4px;
-  -webkit-animation: loadpulse 1s infinite;
-  -moz-animation:    loadpulse 1s infinite;
-  -o-animation:      loadpulse 1s infinite;
-  animation:         loadpulse 1s infinite;
+section {
+	color: #fff;
 }
 
-@-webkit-keyframes loadpulse {
-  0%   { opacity: 0; }
-  100% { opacity: 1; }
+.navbar-right {
+	margin-right: 0;
 }
-@-moz-keyframes loadpulse {
-  0%   { opacity: 0; }
-  100% { opacity: 1; }
+
+#question-list {
+	padding: 0;
+	max-width: 100%;
 }
-@-o-keyframes loadpulse {
-  0%   { opacity: 0; }
-  100% { opacity: 1; }
+
+#question-list li {
+  display: block;
+  max-width: 100%;
 }
-@keyframes loadpulse {
-  0%   { opacity: 0; }
-  100% { opacity: 1; }
+.panel-title {
+	margin-bottom: 52px;
+	background: rgba(10,10,10,0.8);
+	padding: 13px 26px 26px 26px;
+	border-radius: 4px;
 }
+.panel-title h1 {
+	margin: 0;
+}
+.btn {
+  position: relative;
+  font-family: 'Alegreya SC', serif;
+  font-weight: 600;
+  background: #e5c808;
+  color: #1e1e1e;
+  border: solid 2px #e5c808;
+  margin-bottom: 52px;
+  font-size: 24px;
+  white-space: normal;
+}
+.btn:hover,
+.btn:focus,
+.btn:active,
+.default.btn:hover,
+.default.btn:focus,
+.default.btn:active {
+  background: #fff;
+  border-color: #fff;
+}
+
+.riotapp-table {
+  
+
+}
+#champ-item {
+  position: relative;
+  padding-left: 104px;
+  background: rgba(15,15,15,0.75);
+  min-height: 104px;
+}
+#champ-item .avatar {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 104px;
+	height: auto;
+}
+.riotapp-table thead {
+  font-family: 'Alegreya SC', serif;
+  font-weight: 600;
+  color: #e5c808;
+  font-size: 21px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
