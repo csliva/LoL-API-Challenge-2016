@@ -22,12 +22,9 @@ except:
 
 cur = conn.cursor() #cursor can execute SQL commands. If connection fails, conn is not defined!
 
-cur.execute("DROP TABLE " + table)
-
-cur.execute("CREATE TABLE IF NOT EXISTS " + table + "(tablekey FLOAT, playerId INT, playerRank VARCHAR, championId INT, championName VARCHAR, championRole VARCHAR, championPoints INT, championLevel INT, playerWins INT, playerLosses INT);")
 cur.execute("DROP TABLE IF EXISTS " + table)
 
-cur.execute("CREATE TABLE IF NOT EXISTS " + table + "(tablekey FLOAT, playerId INT, playerName VARCHAR, playerRank VARCHAR, championId INT, championName VARCHAR, championRole VARCHAR, championPoints INT, championLevel INT, playerWins INT, playerLosses INT, winratio DECIMAL);")
+cur.execute("CREATE TABLE IF NOT EXISTS " + table + "(tablekey FLOAT, playerId INT, playerName VARCHAR, playerIcon INT, playerRank VARCHAR, championId INT, championName VARCHAR, championRole VARCHAR, championPoints INT, championLevel INT, playerWins INT, playerLosses INT, winratio DECIMAL);")
 
 #Rate limiting logic, uses time library
 def RateLimited(maxPerSecond):
@@ -46,10 +43,6 @@ def RateLimited(maxPerSecond):
     return decorate
 
 @RateLimited(1)  #  About one call every 2 seconds at most
-def rateLimitUrl(currUrl): 
-    urlResponse = requests.get(currUrl, timeout=20)
-    urlData = urlResponse.json()
-    print "Getting rate limited data from URL: " + currUrl
 def rateLimitUrl(currUrl):
     urlResponse = requests.get(currUrl, timeout=20)
     urlData = urlResponse.json()
@@ -67,6 +60,9 @@ if __name__ == "__main__":
         #this section mainly grabs all API calls
         playerId = playerListData["entries"][i]["playerOrTeamId"]
         playerName = playerListData["entries"][i]["playerOrTeamName"]
+        playerIconUrl = "https://na.api.pvp.net/api/lol/na/v1.4/summoner/" + playerId + "?api_key=" + api_key
+        playerIconData = rateLimitUrl(playerIconUrl)
+        playerIcon = str(playerIconData[playerId]["profileIconId"])
         masteryUrl = "https://na.api.pvp.net/championmastery/location/NA1/player/" + playerId + "/champions?api_key=" + api_key
         masteryData = rateLimitUrl(masteryUrl)
         masteryLength = len(masteryData)-1
@@ -86,24 +82,10 @@ if __name__ == "__main__":
                 championData = quickDataGrab(championDataUrl)
 	    except Exception,e:
 	        print str(e)
-            except Exception,e:
-                print str(e)
             championName = str(championData["name"]).replace("'", "")
             championRole = str(championData["tags"][0])
             playerWins = '0'
             playerLosses = '0'
-            playerChampDataLength = len(playerChampData["champions"])-1
-	    for k in range(0 , playerChampDataLength):
-                if str(playerChampData["champions"][k]["id"]) == championId:
-            	    playerWins = str(playerChampData["champions"][k]["stats"]["totalSessionsWon"])
-            	    playerLosses = str(playerChampData["champions"][k]["stats"]["totalSessionsLost"])
-	            try: 
-                        print "playerWins = " + playerWins 
-            	        cur.execute("INSERT INTO " + table +" VALUES (" + tablekey + ", " + playerId + ", \'" + playerRank + "\', " + championId + ", \'" + championName + "\', \'" + championRole + "\', " + championPoints + ", " + championLevel + ", " + playerWins + ", " + playerLosses + ");")
-            	        print "Row added for: " + str(playerId)
-             	        conn.commit()
-	            except Exception,e:
-	 	        print str(e)
             ratio = 0
             playerChampDataLength = len(playerChampData["champions"])-1
             for k in range(0 , playerChampDataLength):
@@ -115,8 +97,8 @@ if __name__ == "__main__":
                     print playerLosses + " player losses"
                     print ratio + " ratio"
                     try:
-                        cur.execute("INSERT INTO " + table +" VALUES (" + tablekey + ", " + playerId + ", \'" + playerName + "\', \'" + playerRank + "\', " + championId + ", \'" + championName + "\', \'" + championRole + "\', " + championPoints + ", " + championLevel + ", " + playerWins + ", " + playerLosses + ", " + ratio + ");")
+                        cur.execute("INSERT INTO " + table +" VALUES (" + tablekey + ", " + playerId + ", \'" + playerName + "\', " + playerIcon + ", \'" + playerRank + "\', " + championId + ", \'" + championName + "\', \'" + championRole + "\', " + championPoints + ", " + championLevel + ", " + playerWins + ", " + playerLosses + ", " + ratio + ");")
                         conn.commit()
-                  except Exception,e:
-                              print str(e)
+                    except Exception,e:
+                        print str(e)
 

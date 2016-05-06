@@ -6,7 +6,7 @@ var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 // 0.0 DATA
 /////////////////////////////////////////////////////////
 
-var champAvatar = 'http://ddragon.leagueoflegends.com/cdn/6.9.1/img/champion/Aatrox.png';
+var champAvatar = 'http://ddragon.leagueoflegends.com/cdn/6.9.1/img/profileicon/';
 
 var questions = [
   {"question" : "What is the optimal number of champions to focus on?"},
@@ -151,6 +151,9 @@ var AppBodyWelcome = React.createClass({
     }
 });
 var AppPanelOne = React.createClass({
+  componentDidMount: function() {
+    this.props.champData = this.props.parent.getData('http://107.170.249.70/champions/optimalchamp');
+  },
   render: function(){
         return (
           <section id="riotapp-panel-one">
@@ -164,23 +167,24 @@ var AppPanelOne = React.createClass({
               </button>
               <div className="row">
                   {this.props.champData.map(function(item, i){
+                    var champIcon = champAvatar + item.playericon + ".png"
                     return(
                     <div key={item.tablekey} className="col-xs-12">
                         <div id="champ-item">
-                        <img className="avatar" src={champAvatar} alt="Stand In Avatar" />
+                        <img className="avatar" src={champIcon} alt="Stand In Avatar" />
                         <table className="table riotapp-table">
                           <thead>
                             <tr>
-                              <td>Payer Name</td>
+                              <td>Player Name</td>
                               <td>Number of Champions</td>
                               <td>Win Ratio</td>
                             </tr>
                           </thead>
                           <tbody>
                             <tr>
-                              <td>{item.name}</td>
-                              <td>{item.champnum}</td>
-                              <td>20%</td>
+                              <td>{item.playername}</td>
+                              <td>{item.count}</td>
+                              <td>{item.avg}</td>
                             </tr>
                           </tbody>
                         </table>
@@ -196,6 +200,9 @@ var AppPanelOne = React.createClass({
     }
 });
 var AppPanelTwo = React.createClass({
+  componentDidMount: function() {
+    this.props.champData = this.props.parent.getData('http://107.170.249.70/champions/optimalmastery');
+  },
   render: function(){
         return (
           <section id="riotapp-panel-two">
@@ -209,23 +216,24 @@ var AppPanelTwo = React.createClass({
               </button>
               <div className="row">
                   {this.props.champData.map(function(item, i){
+                    var champIcon = champAvatar + item.playericon + ".png"
                     return(
                     <div key={item.tablekey} className="col-xs-12">
                         <div id="champ-item">
-                        <img className="avatar" src={champAvatar} alt="Stand In Avatar" />
+                        <img className="avatar" src={champIcon} alt="Stand In Avatar" />
                         <table className="table riotapp-table">
                           <thead>
                             <tr>
-                              <td>Payer Name</td>
-                              <td>Number of Champions</td>
+                              <td>Player Name</td>
+                              <td>Sum of Level 5 Champions</td>
                               <td>Win Ratio</td>
                             </tr>
                           </thead>
                           <tbody>
                             <tr>
-                              <td>{item.name}</td>
-                              <td>{item.champnum}</td>
-                              <td>20%</td>
+                              <td>{item.playername}</td>
+                              <td>{item.sum}</td>
+                              <td>{item.avg}</td>
                             </tr>
                           </tbody>
                         </table>
@@ -241,6 +249,9 @@ var AppPanelTwo = React.createClass({
     }
 });
 var AppPanelThree = React.createClass({
+  componentDidMount: function() {
+    this.props.champData = this.props.parent.getData('http://107.170.249.70/champions/masteryspread');
+  },
   render: function(){
         return (
           <section id="riotapp-panel-three">
@@ -254,23 +265,24 @@ var AppPanelThree = React.createClass({
               </button>
               <div className="row">
                   {this.props.champData.map(function(item, i){
+                    var champIcon = champAvatar + item.playericon + ".png"
                     return(
                     <div key={item.tablekey} className="col-xs-12">
                         <div id="champ-item">
-                        <img className="avatar" src={champAvatar} alt="Stand In Avatar" />
+                        <img className="avatar" src={champIcon} alt="Stand In Avatar" />
                         <table className="table riotapp-table">
                           <thead>
                             <tr>
-                              <td>Payer Name</td>
-                              <td>Number of Champions</td>
+                              <td>Player Name</td>
+                              <td>Number of Level 5 Champions</td>
                               <td>Win Ratio</td>
                             </tr>
                           </thead>
                           <tbody>
                             <tr>
-                              <td>{item.name}</td>
-                              <td>{item.champnum}</td>
-                              <td>20%</td>
+                              <td>{item.playername}</td>
+                              <td>{item.count}</td>
+                              <td>{item.avg}</td>
                             </tr>
                           </tbody>
                         </table>
@@ -286,6 +298,9 @@ var AppPanelThree = React.createClass({
     }
 });
 var AppPanelFour = React.createClass({
+  componentDidMount: function() {
+    this.props.champData = this.props.parent.getData('http://107.170.249.70/champions/role');
+  },
   render: function(){
         return (
           <section id="riotapp-panel-four">
@@ -299,23 +314,22 @@ var AppPanelFour = React.createClass({
               </button>
               <div className="row">
                   {this.props.champData.map(function(item, i){
+                    var champIcon = champAvatar + i + ".png"
                     return(
                     <div key={item.tablekey} className="col-xs-12">
                         <div id="champ-item">
-                        <img className="avatar" src={champAvatar} alt="Stand In Avatar" />
+                        <img className="avatar" src={champIcon} alt="Stand In Avatar" />
                         <table className="table riotapp-table">
                           <thead>
                             <tr>
-                              <td>Payer Name</td>
-                              <td>Number of Champions</td>
-                              <td>Win Ratio</td>
+                              <td>Champion Role</td>
+                              <td>Sum of Mastery Points</td>
                             </tr>
                           </thead>
                           <tbody>
                             <tr>
-                              <td>{item.name}</td>
-                              <td>{item.champnum}</td>
-                              <td>20%</td>
+                              <td>{item.championrole}</td>
+                              <td>{item.sum}</td>
                             </tr>
                           </tbody>
                         </table>
