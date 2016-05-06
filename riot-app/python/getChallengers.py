@@ -22,15 +22,12 @@ except:
 
 cur = conn.cursor() #cursor can execute SQL commands. If connection fails, conn is not defined!
 
-<<<<<<< HEAD
 cur.execute("DROP TABLE " + table)
 
 cur.execute("CREATE TABLE IF NOT EXISTS " + table + "(tablekey FLOAT, playerId INT, playerRank VARCHAR, championId INT, championName VARCHAR, championRole VARCHAR, championPoints INT, championLevel INT, playerWins INT, playerLosses INT);")
-=======
 cur.execute("DROP TABLE IF EXISTS " + table)
 
 cur.execute("CREATE TABLE IF NOT EXISTS " + table + "(tablekey FLOAT, playerId INT, playerName VARCHAR, playerRank VARCHAR, championId INT, championName VARCHAR, championRole VARCHAR, championPoints INT, championLevel INT, playerWins INT, playerLosses INT, winratio DECIMAL);")
->>>>>>> feature/react-frontend
 
 #Rate limiting logic, uses time library
 def RateLimited(maxPerSecond):
@@ -49,16 +46,13 @@ def RateLimited(maxPerSecond):
     return decorate
 
 @RateLimited(1)  #  About one call every 2 seconds at most
-<<<<<<< HEAD
 def rateLimitUrl(currUrl): 
     urlResponse = requests.get(currUrl, timeout=20)
     urlData = urlResponse.json()
     print "Getting rate limited data from URL: " + currUrl
-=======
 def rateLimitUrl(currUrl):
     urlResponse = requests.get(currUrl, timeout=20)
     urlData = urlResponse.json()
->>>>>>> feature/react-frontend
     return urlData
 
 def quickDataGrab(currUrl):
@@ -69,10 +63,7 @@ def quickDataGrab(currUrl):
 if __name__ == "__main__":
     listlength = len(playerListData["entries"])-1
     for i in range(0, listlength):
-<<<<<<< HEAD
-=======
         print "On playerListData entry: " + str(i)
->>>>>>> feature/react-frontend
         #this section mainly grabs all API calls
         playerId = playerListData["entries"][i]["playerOrTeamId"]
         playerName = playerListData["entries"][i]["playerOrTeamName"]
@@ -93,18 +84,14 @@ if __name__ == "__main__":
             championDataUrl = "https://global.api.pvp.net/api/lol/static-data/na/v1.2/champion/" + championId + "?champData=tags&api_key=" + api_key
             try:
                 championData = quickDataGrab(championDataUrl)
-<<<<<<< HEAD
 	    except Exception,e:
 	        print str(e)
-=======
             except Exception,e:
                 print str(e)
->>>>>>> feature/react-frontend
             championName = str(championData["name"]).replace("'", "")
             championRole = str(championData["tags"][0])
             playerWins = '0'
             playerLosses = '0'
-<<<<<<< HEAD
             playerChampDataLength = len(playerChampData["champions"])-1
 	    for k in range(0 , playerChampDataLength):
                 if str(playerChampData["champions"][k]["id"]) == championId:
@@ -117,7 +104,6 @@ if __name__ == "__main__":
              	        conn.commit()
 	            except Exception,e:
 	 	        print str(e)
-=======
             ratio = 0
             playerChampDataLength = len(playerChampData["champions"])-1
             for k in range(0 , playerChampDataLength):
@@ -134,4 +120,3 @@ if __name__ == "__main__":
                   except Exception,e:
                               print str(e)
 
->>>>>>> feature/react-frontend
