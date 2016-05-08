@@ -1,4 +1,4 @@
-import requests, json, psycopg2,time
+import requests, json, psycopg2, time
 #Enter database Information
 dbname = "riotdb"
 user = "postgres"
@@ -55,7 +55,7 @@ def quickDataGrab(currUrl):
 
 if __name__ == "__main__":
     listlength = len(playerListData["entries"])-1
-    for i in range(0, listlength):
+    for i in range(0, 50):
         print "On playerListData entry: " + str(i)
         #this section mainly grabs all API calls
         playerId = playerListData["entries"][i]["playerOrTeamId"]

@@ -9,22 +9,30 @@ var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 var champAvatar = 'http://ddragon.leagueoflegends.com/cdn/6.9.1/img/profileicon/';
 
 var questions = [
-  {"question" : "What is the optimal number of champions to focus on?"},
-  {"question" : "What is the optimal amount of mastery for a good win ratio?"},
-  {"question" : "Which pro players show the highest mastery across the most champions?"},
-  {"question" : "Which champion role has the most mastery points?"}
-];
-
-var fakedata = [
-  {"tablekey":"00000001", "name":"fakename01", "champnum":"00000000", "totalmastery":"10000000", "champrole":"Role I"},
-  {"tablekey":"00000002", "name":"fakename02", "champnum":"11111111", "totalmastery":"20000000", "champrole":"Role H"},
-  {"tablekey":"00000003", "name":"fakename03", "champnum":"22222222", "totalmastery":"30000000", "champrole":"Role G"},
-  {"tablekey":"00000004", "name":"fakename04", "champnum":"33333333", "totalmastery":"40000000", "champrole":"Role F"},
-  {"tablekey":"00000005", "name":"fakename05", "champnum":"44444444", "totalmastery":"50000000", "champrole":"Role E"},
-  {"tablekey":"00000006", "name":"fakename06", "champnum":"55555555", "totalmastery":"60000000", "champrole":"Role D"},
-  {"tablekey":"00000007", "name":"fakename07", "champnum":"55555555", "totalmastery":"70000000", "champrole":"Role C"},
-  {"tablekey":"00000008", "name":"fakename08", "champnum":"66666666", "totalmastery":"80000000", "champrole":"Role B"},
-  {"tablekey":"00000009", "name":"fakename09", "champnum":"77777777", "totalmastery":"90000000", "champrole":"Role A"}
+  {
+    "qindex" : 1,
+    "question" : "What is the optimal number of champions to focus on?",
+    "dataroute" : "/champions/optimalchamp",
+    "fields" : ['playername', 'playericon', 'avg']
+  },
+  {
+    "qindex" : 2,
+    "question" : "What is the optimal amount of mastery for a good win ratio?",
+    "dataroute" : "/champions/optimalmastery",
+    "fields" : ['playername', 'playericon', 'sum', 'avg']
+  },
+  {
+    "qindex" : 3,
+    "question" : "Which pro players show the highest mastery across the most champions?",
+    "dataroute" : "/champions/masteryspread",
+    "fields" : ['playername', 'playericon', 'count', 'avg', 'sum']
+  },
+  {
+    "qindex" : 4,
+    "question" : "Which champion role has the most mastery points?",
+    "dataroute" : "/champions/role",
+    "fields" : ['championrole','sum']
+  }
 ];
 
 /////////////////////////////////////////////////////////
@@ -34,31 +42,55 @@ var IndexLayout = React.createClass({
     getInitialState: function(){
       return { 
         viewstate: 0,
-        champnum: [],
-        championlist: fakedata,
-        loading: false,
-        postLimit: 100,
-        postOffset: 0
+        //viewData: [],
+        viewDataA: [],
+        viewDataB: [],
+        viewDataC: [],
+        viewDataD: [],
+        loading: false
       };
     },
-    getCount: function(url){  
+    getDataA: function(url){  
+      console.log('Trying to get: '+url)
       $.get(url, function(result) {
         if (this.isMounted()) {
           this.setState({
-            champnum: result
+            viewDataA: result
           });
-          console.log('Ajax Call Made! - Getting Row Count');
+          console.log('Ajax Call Made! - Getting Data for View A');
         }
       }.bind(this));
     },
-    getData: function(url){  
+    getDataB: function(url){  
+      console.log('Trying to get: '+url)
       $.get(url, function(result) {
         if (this.isMounted()) {
           this.setState({
-            championlist: result,
-            loading: false
+            viewDataB: result
           });
-          console.log('Ajax Call Made! - Getting Champions');
+          console.log('Ajax Call Made! - Getting Data for View A');
+        }
+      }.bind(this));
+    },
+    getDataC: function(url){  
+      console.log('Trying to get: '+url)
+      $.get(url, function(result) {
+        if (this.isMounted()) {
+          this.setState({
+            viewDataC: result
+          });
+          console.log('Ajax Call Made! - Getting Data for View C');
+        }
+      }.bind(this));
+    },
+    getDataD: function(url){  
+      console.log('Trying to get: '+url)
+      $.get(url, function(result) {
+        if (this.isMounted()) {
+          this.setState({
+            viewDataC: result
+          });
+          console.log('Ajax Call Made! - Getting Data for View D');
         }
       }.bind(this));
     },
@@ -66,32 +98,38 @@ var IndexLayout = React.createClass({
       console.log('Change state to: '+stateID);
       this.setState({
         viewstate: stateID
-      });
+      }); 
     },
     componentDidMount: function() {
-      var pLimit = this.state.postLimit;
-      var pOffset = this.state.postOffset;
       console.log('IndexTemplate Mounted');
-      //this.getData('/champions/championlist/'+pLimit+'/'+pOffset+'');
-      //this.getCount('/champions/championcount');
+      this.getDataA(questions[0].dataroute);
+      this.getDataB(questions[1].dataroute);
+      this.getDataC(questions[2].dataroute);
+      this.getDataD(questions[3].dataroute);
     },
     render: function(){
         //Get app viewstate
         var currentView = this.state.viewstate;
         if(currentView===0){
-          var bodyView = <AppBodyWelcome parent={this} champData={this.state.championlist} />;
-        }else if(currentView===1){
-          var bodyView = <AppPanelOne parent={this} champData={this.state.championlist} />;
-        }else if(currentView===2){
-          var bodyView = <AppPanelTwo parent={this} champData={this.state.championlist} />;
-        }else if(currentView===3){
-          var bodyView = <AppPanelThree parent={this} champData={this.state.championlist} />;
-        }else if(currentView===4){
-          var bodyView = <AppPanelFour parent={this} champData={this.state.championlist} />;
+          var bodyView = <AppBodyWelcome parent={this} viewstate={this.state.viewstate} />;
+        }else if(currentView===1) {
+          var bodyView = <QViewA parent={this} viewstate={this.state.viewstate} viewData={this.state.viewDataA} />;
+        }
+        else if(currentView===2) {
+          var bodyView = <QViewB parent={this} viewstate={this.state.viewstate} viewData={this.state.viewDataB} />;
+        }
+        else if(currentView===3) {
+          var bodyView = <QViewC parent={this} viewstate={this.state.viewstate} viewData={this.state.viewDataC} />;
+        }
+        else if(currentView===4) {
+          var bodyView = <QViewD parent={this} viewstate={this.state.viewstate} viewData={this.state.viewDataD} />;
+        } else {
+          var bodyView = <div className="error">An Error Has Ocurred</div>;
         }
         // Render App
         return (
           <div id='index-layout-inner'>
+              <AppHeader parent={this} />
               {bodyView}
           </div>
         );
@@ -103,240 +141,85 @@ var AppHeader = React.createClass({
         return (
           <header id="riotapp-header">
             <div className="container">
-              <nav id="riotapp-navbar" className="navbar navbar-default">
-                <a className="navbar-brand" href=".">Riot LoL Challenge</a>
-                <ul className="nav navbar-nav">
-                  <li><a href="#">Navlink</a></li>
-                  <li><a href="#">Navlink</a></li>
-                  <li><a href="#">Navlink</a></li>
-                  <li><a href="#">Navlink</a></li>
-                </ul>
-                <ul className="nav navbar-nav navbar-right">
-                  <li><a href="#"><i className="fa fa-bars"></i></a></li>
-                </ul>
-              </nav>
+               <nav id="wtdwm-navi"> 
+                   <a href="/" id="wtdwm-logo">
+                      <img src="../images/wtdwm-logo-web-opt.png" alt="What's the Deal with Mastery Logo" />
+                   </a>
+                   <ul className="list-inline" id="wtdwm-navlinks">
+                       <li><button className="btn btn-default" type="button" onClick={ this.props.parent.changeViewstate.bind(this, 0) }>H</button></li>
+                       <li><button className="btn btn-default" type="button" onClick={ this.props.parent.changeViewstate.bind(this, 1) }>Q1</button></li>
+                       <li><button className="btn btn-default" type="button" onClick={ this.props.parent.changeViewstate.bind(this, 2) }>Q2</button></li>
+                       <li><button className="btn btn-default" type="button" onClick={ this.props.parent.changeViewstate.bind(this, 3) }>Q3</button></li>
+                       <li><button className="btn btn-default" type="button" onClick={ this.props.parent.changeViewstate.bind(this, 4) }>Q4</button></li>
+                   </ul>
+               </nav>
             </div>
           </header>
         );
     }
 });
 var AppBodyWelcome = React.createClass({
+  componentDidMount: function(){
+
+  },
   render: function(){
         return (
           <section id="riotapp-welcome-section">
             <div className="container">
             <div className="body-content">
-              <div className="panel-title">
-                <h1>Welcome to the Riot Challenge App!</h1>
-                <p>Here are the questions we set out to answer: </p>
-              </div>
-              <ul id="question-list">
-                    <li><button className="btn btn-default" type="button" onClick={ this.props.parent.changeViewstate.bind(this, 1) }>
-                        <b>Q:</b> {questions[0].question}
-                    </button></li>
-                    <li><button className="btn btn-default" type="button" onClick={ this.props.parent.changeViewstate.bind(this, 2) }>
-                        <b>Q:</b> {questions[1].question}
-                    </button></li>
-                    <li><button className="btn btn-default" type="button" onClick={ this.props.parent.changeViewstate.bind(this, 3) }>
-                        <b>Q:</b> {questions[2].question}
-                    </button></li>
-                    <li><button className="btn btn-default" type="button" onClick={ this.props.parent.changeViewstate.bind(this, 4) }>
-                        <b>Q:</b> {questions[3].question}
-                    </button></li>
-              </ul>
-            </div>
-            </div>
-          </section>
-        );
-    }
-});
-var AppPanelOne = React.createClass({
-  componentDidMount: function() {
-    this.props.champData = this.props.parent.getData('http://107.170.249.70/champions/optimalchamp');
-  },
-  render: function(){
-        return (
-          <section id="riotapp-panel-one">
-            <div className="container">
-            <div className="body-content">
-              <div className="panel-title">
-              <h1>Q: {questions[0].question}</h1>
-              </div>
-              <button className="btn btn-default" type="button" onClick={ this.props.parent.changeViewstate.bind(this, 0) }>
-                  <i className="fa fa-long-arrow-left"></i> Back to Questions
-              </button>
-              <div className="row">
-                  {this.props.champData.map(function(item, i){
-                    var champIcon = champAvatar + item.playericon + ".png"
-                    return(
-                    <div key={item.tablekey} className="col-xs-12">
-                        <div id="champ-item">
-                        <img className="avatar" src={champIcon} alt="Stand In Avatar" />
-                        <table className="table riotapp-table">
-                          <thead>
-                            <tr>
-                              <td>Player Name</td>
-                              <td>Number of Champions</td>
-                              <td>Win Ratio</td>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td>{item.playername}</td>
-                              <td>{item.count}</td>
-                              <td>{item.avg}</td>
-                            </tr>
-                          </tbody>
-                        </table>
+              <div id="question-list" className="row eq-row">
+                  <div className="col-xs-12 col-sm-6 eq-col">
+                    <div className="wtdwm-well eq-content">
+                        <small>Question 1</small>
+                        <h2>{questions[0].question}</h2>
+                        <p>Lorem ipsum dolor sit amet, est eirmod facilisi perfecto cu, id postea liberavisse pri. Explicari percipitur cu pri.</p>
+                        <div className="btn-wrap">
+                        <button className="btn wtdwm-btn" type="button"
+                          onClick={ this.props.parent.changeViewstate.bind(this, 1) }>
+                          View the Results <i className="fa fa-long-arrow-right"></i>
+                        </button>
                         </div>
                     </div>
-                    );        
-                  })}
-              </div>
-            </div>
-            </div>
-          </section>
-        );
-    }
-});
-var AppPanelTwo = React.createClass({
-  componentDidMount: function() {
-    this.props.champData = this.props.parent.getData('http://107.170.249.70/champions/optimalmastery');
-  },
-  render: function(){
-        return (
-          <section id="riotapp-panel-two">
-            <div className="container">
-            <div className="body-content">
-              <div className="panel-title">
-              <h1>Q: {questions[1].question}</h1>
-              </div>
-              <button className="btn btn-default" type="button" onClick={ this.props.parent.changeViewstate.bind(this, 0) }>
-                  <i className="fa fa-long-arrow-left"></i> Back to Questions
-              </button>
-              <div className="row">
-                  {this.props.champData.map(function(item, i){
-                    var champIcon = champAvatar + item.playericon + ".png"
-                    return(
-                    <div key={item.tablekey} className="col-xs-12">
-                        <div id="champ-item">
-                        <img className="avatar" src={champIcon} alt="Stand In Avatar" />
-                        <table className="table riotapp-table">
-                          <thead>
-                            <tr>
-                              <td>Player Name</td>
-                              <td>Sum of Level 5 Champions</td>
-                              <td>Win Ratio</td>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td>{item.playername}</td>
-                              <td>{item.sum}</td>
-                              <td>{item.avg}</td>
-                            </tr>
-                          </tbody>
-                        </table>
+                  </div>
+                  <div className="col-xs-12 col-sm-6 eq-col">
+                    <div className="wtdwm-well eq-content">
+                        <small>Question 2</small>
+                        <h2>{questions[1].question}</h2>
+                        <p>Lorem ipsum dolor sit amet, est eirmod facilisi perfecto cu, id postea liberavisse pri. Explicari percipitur cu pri.</p>
+                        <div className="btn-wrap">
+                        <button className="btn wtdwm-btn" type="button"
+                          onClick={ this.props.parent.changeViewstate.bind(this, 2) }>
+                          View the Results <i className="fa fa-long-arrow-right"></i>
+                        </button>
                         </div>
                     </div>
-                    );        
-                  })}
-              </div>
-            </div>
-            </div>
-          </section>
-        );
-    }
-});
-var AppPanelThree = React.createClass({
-  componentDidMount: function() {
-    this.props.champData = this.props.parent.getData('http://107.170.249.70/champions/masteryspread');
-  },
-  render: function(){
-        return (
-          <section id="riotapp-panel-three">
-            <div className="container">
-            <div className="body-content">
-              <div className="panel-title">
-              <h1>Q: {questions[2].question}</h1>
-              </div>
-              <button className="btn btn-default" type="button" onClick={ this.props.parent.changeViewstate.bind(this, 0) }>
-                  <i className="fa fa-long-arrow-left"></i> Back to Questions
-              </button>
-              <div className="row">
-                  {this.props.champData.map(function(item, i){
-                    var champIcon = champAvatar + item.playericon + ".png"
-                    return(
-                    <div key={item.tablekey} className="col-xs-12">
-                        <div id="champ-item">
-                        <img className="avatar" src={champIcon} alt="Stand In Avatar" />
-                        <table className="table riotapp-table">
-                          <thead>
-                            <tr>
-                              <td>Player Name</td>
-                              <td>Number of Level 5 Champions</td>
-                              <td>Win Ratio</td>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td>{item.playername}</td>
-                              <td>{item.count}</td>
-                              <td>{item.avg}</td>
-                            </tr>
-                          </tbody>
-                        </table>
+                  </div>
+                  <div className="col-xs-12 col-sm-6 eq-col">
+                    <div className="wtdwm-well eq-content">
+                        <small>Question 3</small>
+                        <h2>{questions[2].question}</h2>
+                        <p>Lorem ipsum dolor sit amet, est eirmod facilisi perfecto cu, id postea liberavisse pri. Explicari percipitur cu pri.</p>
+                        <div className="btn-wrap">
+                        <button className="btn wtdwm-btn" type="button"
+                          onClick={ this.props.parent.changeViewstate.bind(this, 3) }>
+                          View the Results <i className="fa fa-long-arrow-right"></i>
+                        </button>
                         </div>
                     </div>
-                    );        
-                  })}
-              </div>
-            </div>
-            </div>
-          </section>
-        );
-    }
-});
-var AppPanelFour = React.createClass({
-  componentDidMount: function() {
-    this.props.champData = this.props.parent.getData('http://107.170.249.70/champions/role');
-  },
-  render: function(){
-        return (
-          <section id="riotapp-panel-four">
-            <div className="container">
-            <div className="body-content">
-              <div className="panel-title">
-              <h1>Q: {questions[3].question}</h1>
-              </div>
-              <button className="btn btn-default" type="button" onClick={ this.props.parent.changeViewstate.bind(this, 0) }>
-                  <i className="fa fa-long-arrow-left"></i> Back to Questions
-              </button>
-              <div className="row">
-                  {this.props.champData.map(function(item, i){
-                    var champIcon = champAvatar + i + ".png"
-                    return(
-                    <div key={item.tablekey} className="col-xs-12">
-                        <div id="champ-item">
-                        <img className="avatar" src={champIcon} alt="Stand In Avatar" />
-                        <table className="table riotapp-table">
-                          <thead>
-                            <tr>
-                              <td>Champion Role</td>
-                              <td>Sum of Mastery Points</td>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td>{item.championrole}</td>
-                              <td>{item.sum}</td>
-                            </tr>
-                          </tbody>
-                        </table>
+                  </div>
+                  <div className="col-xs-12 col-sm-6 eq-col">
+                    <div className="wtdwm-well eq-content">
+                        <small>Question 4</small>
+                        <h2>{questions[3].question}</h2>
+                        <p>Lorem ipsum dolor sit amet, est eirmod facilisi perfecto cu, id postea liberavisse pri. Explicari percipitur cu pri.</p>
+                        <div className="btn-wrap">
+                        <button className="btn wtdwm-btn" type="button"
+                          onClick={ this.props.parent.changeViewstate.bind(this, 4) }>
+                          View the Results <i className="fa fa-long-arrow-right"></i>
+                        </button>
                         </div>
                     </div>
-                    );        
-                  })}
+                  </div>
               </div>
             </div>
             </div>
@@ -344,6 +227,240 @@ var AppPanelFour = React.createClass({
         );
     }
 });
+
+var QViewA = React.createClass({
+  componentDidMount: function(){
+
+  },
+  render: function(){
+        var that = this;
+        return ( 
+          <section id="inner-view">
+            <div className="container">
+              <div className="row">
+                <div className="col-xs-12">
+                  <div className="wtdwm-well">
+                    <p>Content Here</p>
+                  </div>
+                </div>
+                <div className="col-xs-12">
+                  <div className="wtdwm-well scroll-list-well eq-content">
+                    <div className="scroll-list">
+                    <p>View State: {this.props.viewstate}</p>
+                    {this.props.viewData.map(function(item, i){
+                      return(
+                        <div className="champ-item-wrap">
+                          <h4 className="rank-num">{i+1}</h4>
+                        <div className="champ-item">
+                            <div className="champ-avatar">
+                               <img src={champAvatar+item.playericon+'.png'} alt="Alt" />
+                            </div>
+                            <ul className="details row">
+                              <li className="col-xs-6">
+                                  <label>Player Name</label>
+                                  <div className="champdata">{item.playername}</div>
+                              </li>
+                              <li className="col-xs-6">
+                                  <label>Average Win Rate</label>
+                                  <div className="champdata">{parseFloat(item.avg).toFixed(2)}</div>
+                              </li>
+                            </ul>
+                        </div>
+                        </div>
+                      );        
+                    })}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        );
+    }
+});
+
+var QViewB = React.createClass({
+  componentDidMount: function(){
+
+  },
+  render: function(){
+        var that = this;
+        return ( 
+          <section id="inner-view">
+            <div className="container">
+              <div className="row">
+                <div className="col-xs-12">
+                  <div className="wtdwm-well">
+                    <p>Content Here</p>
+                  </div>
+                </div>
+                <div className="col-xs-12">
+                  <div className="wtdwm-well scroll-list-well">
+                    <div className="scroll-list">
+                    <p>View State: {this.props.viewstate}</p>
+                    {this.props.viewData.map(function(item, i){
+                      return(
+                        <div className="champ-item-wrap">
+                          <h4 className="rank-num">{i+1}</h4>
+                        <div className="champ-item">
+                            <div className="champ-avatar">
+                               <img src={champAvatar+item.playericon+'.png'} alt="Alt" />
+                            </div>
+                            <ul className="details row">
+                              <li className="col-xs-4">
+                                  <label>Player Name</label>
+                                  <div className="champdata">{item.playername}</div>
+                              </li>
+                              <li className="col-xs-4">
+                                  <label>Mastery Point Total</label>
+                                  <div className="champdata">{item.sum}</div>
+                              </li>
+                              <li className="col-xs-4">
+                                  <label>Average Win Rate</label>
+                                  <div className="champdata">{parseFloat(item.avg).toFixed(2)}</div>
+                              </li>
+                            </ul>
+                        </div>
+                        </div>
+                        
+                      );        
+                    })}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        );
+    }
+});
+
+var QViewC = React.createClass({
+  componentDidMount: function(){
+
+  },
+  render: function(){
+        var that = this;
+        return ( 
+          <section id="inner-view">
+            <div className="container-">
+              <div className="row">
+                <div className="col-xs-12">
+                  <div className="wtdwm-well">
+                    <p>Content Here</p>
+                  </div>
+                </div>
+                <div className="col-xs-12">
+                  <div className="wtdwm-well scroll-list-well">
+                    <div className="scroll-list">
+                    <p>View State: {this.props.viewstate}</p>
+                    {this.props.viewData.map(function(item, i){
+                      return(
+                        <div className="champ-item-wrap">
+                          <h4 className="rank-num">{i+1}</h4>
+                        <div className="champ-item">
+                            <div className="champ-avatar">
+                               <img src={champAvatar+item.playericon+'.png'} alt="Alt" />
+                            </div>
+                            <ul className="details row">
+                              <li className="col-xs-3">
+                                  <label>Player Name</label>
+                                  <div className="champdata">{item.playername}</div>
+                              </li>
+                              <li className="col-xs-3">
+                                  <label>Champions</label>
+                                  <div className="champdata">{item.count}</div>
+                              </li>
+                              <li className="col-xs-3">
+                                  <label>Mastery Point Total</label>
+                                  <div className="champdata">{item.sum}</div>
+                              </li>
+                              <li className="col-xs-3">
+                                  <label>Average Win Rate</label>
+                                  <div className="champdata">{parseFloat(item.avg).toFixed(2)}</div>
+                              </li>
+                            </ul>
+                        </div>
+                        </div>
+                        
+                      );        
+                    })}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        );
+    }
+});
+
+var QViewD = React.createClass({
+  componentDidMount: function(){
+
+  },
+  render: function(){
+        var that = this;
+        return ( 
+          <section id="inner-view">
+            <div className="container">
+              <div className="row">
+                <div className="col-xs-12 ">
+                  <div className="wtdwm-well">
+                    <p>Content Here</p>
+                  </div>
+                </div>
+                <div className="col-xs-12">
+                  <div className="wtdwm-well scroll-list-well">
+                    <div className="scroll-list">
+                    <p>View State: {this.props.viewstate}</p>
+                    {this.props.viewData.map(function(item, i){
+                      return(
+                        <div className="champ-item-wrap">
+                          <h4 className="rank-num">{i+1}</h4>
+                        <div className="champ-item">
+                            <div className="champ-avatar">
+                               <img src={champAvatar+i+'.png'} alt="Alt" />
+                            </div>
+                            <ul className="details row">
+                              <li className="col-xs-6">
+                                  <label>Role</label>
+                                  <div className="champdata">{item.championrole}</div>
+                              </li>
+                              <li className="col-xs-6">
+                                  <label>Mastery Point Total</label>
+                                  <div className="champdata">{item.sum}</div>
+                              </li>
+                            </ul>
+                        </div>
+                        </div>
+                        
+                      );        
+                    })}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        );
+    }
+});
+
+var ChampTable = React.createClass({
+  componentDidMount: function(){
+
+  },
+  render: function(){
+        var that = this;
+        return ( 
+          <div id="wtdwm-table">
+            Champ Table
+          </div>
+        );
+    }
+});
+
 var AppFooter = React.createClass({
   render: function(){
         return (
