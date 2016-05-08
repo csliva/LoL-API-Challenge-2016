@@ -4,15 +4,19 @@ html
     title= title
     link(rel='stylesheet', href='/stylesheets/font-awesome.min.css')
     link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
+    link(rel='stylesheet', href='/stylesheets/reset.css')
     link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Alegreya+SC:400,900,700')
     link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,700')
     link(rel='stylesheet', href='/stylesheets/style.css')
 
   body
     block content
+    script(src='/javascripts/plugins.js')
+    script(src='/javascripts/d3.min.js')
     script(src='/javascripts/react-with-addons.min.js')
     script(src='/javascripts/react-dom.min.js')
     script(src='/javascripts/babel-browser.min.js')
     script(src='/javascripts/jquery.min.js')
     script(src='/javascripts/bootstrap.min.js')
     script(type='text/babel' src='/javascripts/reactapp.js')
+    script( src='/javascripts/script.js')

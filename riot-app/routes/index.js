@@ -12,5 +12,12 @@ router.get('/', function(req, res, next) {
         });
 });
 
+/* GET home page. */
+router.get('/graph', function(req, res, next) {
+
+        res.render('graph', {
+            title: 'LoL Riot Project'
+        });
+});
 
 module.exports = router;
