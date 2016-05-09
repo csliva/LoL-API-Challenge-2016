@@ -80,7 +80,6 @@ var IndexLayout = React.createClass({
         // Render App
         return (
           <div id='index-layout-inner'>
-	      <AppHeader parent={this} />
               {bodyView}
           </div>
         );
