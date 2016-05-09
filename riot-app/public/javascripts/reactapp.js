@@ -234,6 +234,7 @@ var AppPanelTwo = React.createClass({
   },
   render: function(){
         return (
+            <section id="inner-view">
             <div className="container">
               <div className="row">
                 <div className="col-xs-12">
@@ -255,14 +256,14 @@ var AppPanelTwo = React.createClass({
                           <thead>
                             <tr>
                               <td>Player Name</td>
-                              <td>Sum of Champion Mastery</td>
+                              <td>Number of Champions</td>
                               <td>Win Ratio</td>
                             </tr>
                           </thead>
                           <tbody>
                             <tr>
                               <td>{item.playername}</td>
-                              <td>{item.sum}</td>
+                              <td>{item.count}</td>
                               <td>{item.avg}</td>
                             </tr>
                           </tbody>
@@ -286,6 +287,7 @@ var AppPanelThree = React.createClass({
   },
   render: function(){
         return (
+          <section id="inner-view">
             <div className="container">
               <div className="row">
                 <div className="col-xs-12">
@@ -338,6 +340,7 @@ var AppPanelFour = React.createClass({
   },
   render: function(){
         return (
+          <section id="inner-view">
             <div className="container">
               <div className="row">
                 <div className="col-xs-12">
@@ -358,14 +361,16 @@ var AppPanelFour = React.createClass({
                         <table className="table riotapp-table">
                           <thead>
                             <tr>
-                              <td>Champion Role</td>
-                              <td>Sum of Mastery</td>
+                              <td>Player Name</td>
+                              <td>Number of Champions</td>
+                              <td>Win Ratio</td>
                             </tr>
                           </thead>
                           <tbody>
                             <tr>
-                              <td>{item.championrole}</td>
-                              <td>{item.sum}</td>
+                              <td>{item.playername}</td>
+                              <td>{item.count}</td>
+                              <td>{item.avg}</td>
                             </tr>
                           </tbody>
                         </table>

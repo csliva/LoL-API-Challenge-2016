@@ -234,17 +234,18 @@ var AppPanelTwo = React.createClass({
   },
   render: function(){
         return (
-          <section id="riotapp-panel-two">
             <div className="container">
-            <div className="body-content">
-              <div className="panel-title">
-              <h1>Q: {questions[1].question}</h1>
-              </div>
-              <button className="btn btn-default" type="button" onClick={ this.props.parent.changeViewstate.bind(this, 0) }>
-                  <i className="fa fa-long-arrow-left"></i> Back to Questions
-              </button>
               <div className="row">
-                  {this.props.champData.map(function(item, i){
+                <div className="col-xs-12">
+                  <div className="wtdwm-well">
+                    <p>Content Here</p>
+                  </div>
+                </div>
+                <div className="col-xs-12">
+                  <div className="wtdwm-well scroll-list-well eq-content">
+                    <div className="scroll-list">
+                    <p>View State: {this.props.viewstate}</p>
+                    {this.props.champData.map(function(item, i){
                     var champIcon = champAvatar + item.playericon + ".png"
                     return(
                     <div key={item.tablekey} className="col-xs-12">
@@ -254,7 +255,7 @@ var AppPanelTwo = React.createClass({
                           <thead>
                             <tr>
                               <td>Player Name</td>
-                              <td>Sum of Level 5 Champions</td>
+                              <td>Sum of Champion Mastery</td>
                               <td>Win Ratio</td>
                             </tr>
                           </thead>
@@ -270,8 +271,10 @@ var AppPanelTwo = React.createClass({
                     </div>
                     );        
                   })}
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
             </div>
           </section>
         );
@@ -283,17 +286,18 @@ var AppPanelThree = React.createClass({
   },
   render: function(){
         return (
-          <section id="riotapp-panel-three">
             <div className="container">
-            <div className="body-content">
-              <div className="panel-title">
-              <h1>Q: {questions[2].question}</h1>
-              </div>
-              <button className="btn btn-default" type="button" onClick={ this.props.parent.changeViewstate.bind(this, 0) }>
-                  <i className="fa fa-long-arrow-left"></i> Back to Questions
-              </button>
               <div className="row">
-                  {this.props.champData.map(function(item, i){
+                <div className="col-xs-12">
+                  <div className="wtdwm-well">
+                    <p>Content Here</p>
+                  </div>
+                </div>
+                <div className="col-xs-12">
+                  <div className="wtdwm-well scroll-list-well eq-content">
+                    <div className="scroll-list">
+                    <p>View State: {this.props.viewstate}</p>
+                    {this.props.champData.map(function(item, i){
                     var champIcon = champAvatar + item.playericon + ".png"
                     return(
                     <div key={item.tablekey} className="col-xs-12">
@@ -303,7 +307,7 @@ var AppPanelThree = React.createClass({
                           <thead>
                             <tr>
                               <td>Player Name</td>
-                              <td>Number of Level 5 Champions</td>
+                              <td>Number of Champions</td>
                               <td>Win Ratio</td>
                             </tr>
                           </thead>
@@ -319,8 +323,10 @@ var AppPanelThree = React.createClass({
                     </div>
                     );        
                   })}
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
             </div>
           </section>
         );
@@ -332,18 +338,19 @@ var AppPanelFour = React.createClass({
   },
   render: function(){
         return (
-          <section id="riotapp-panel-four">
             <div className="container">
-            <div className="body-content">
-              <div className="panel-title">
-              <h1>Q: {questions[3].question}</h1>
-              </div>
-              <button className="btn btn-default" type="button" onClick={ this.props.parent.changeViewstate.bind(this, 0) }>
-                  <i className="fa fa-long-arrow-left"></i> Back to Questions
-              </button>
               <div className="row">
-                  {this.props.champData.map(function(item, i){
-                    var champIcon = champAvatar + i + ".png"
+                <div className="col-xs-12">
+                  <div className="wtdwm-well">
+                    <p>Content Here</p>
+                  </div>
+                </div>
+                <div className="col-xs-12">
+                  <div className="wtdwm-well scroll-list-well eq-content">
+                    <div className="scroll-list">
+                    <p>View State: {this.props.viewstate}</p>
+                    {this.props.champData.map(function(item, i){
+                    var champIcon = champAvatar + item.playericon + ".png"
                     return(
                     <div key={item.tablekey} className="col-xs-12">
                         <div id="champ-item">
@@ -352,7 +359,7 @@ var AppPanelFour = React.createClass({
                           <thead>
                             <tr>
                               <td>Champion Role</td>
-                              <td>Sum of Mastery Points</td>
+                              <td>Sum of Mastery</td>
                             </tr>
                           </thead>
                           <tbody>
@@ -366,8 +373,10 @@ var AppPanelFour = React.createClass({
                     </div>
                     );        
                   })}
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
             </div>
           </section>
         );
