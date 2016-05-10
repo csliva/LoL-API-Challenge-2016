@@ -144,7 +144,7 @@ router.get('/masteryspread', function(req, res, next) {
         }
 
         // SQL Query > Select Data
-        var query = client.query("select playername, playericon, count(championlevel = 5), AVG(winratio), sum(championpoints) from challengers group by playername, playericon order by sum desc;");
+        var query = client.query("select playername, playericon, count(championlevel = 5), AVG(winratio), sum(championpoints) from challengers group by playername, playericon order by count desc;");
 
         // Stream results back one row at a time
         query.on('row', function(row) {
