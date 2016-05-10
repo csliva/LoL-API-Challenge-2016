@@ -316,3 +316,13 @@ table.riotapp-table{
 .riotapp-table  tbody tr:first-child td:last-child { border-top-right-radius: 25px; border: solid 1px #fff; border-right:none;}
 .riotapp-table tbody tr:last-child td:first-child { border-bottom-left-radius: 25px; border: solid 1px #fff; border-left:none; border-right:none;}
 .riotapp-table tbody tr:last-child td:last-child { border-bottom-right-radius: 25px; border: solid 1px #fff; border-left:none;}
+
+a.github-go{
+transform: rotate(90deg);
+transform-origin: left top 0px;
+position: fixed;
+color: rgb(229, 200, 8);
+right: 0;
+z-index:1000;
+}
+footer h5{color:white;}

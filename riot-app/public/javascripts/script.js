@@ -198,7 +198,7 @@ Bubbles = function() {
   };
   click = function(d) {
     location.replace("#" + encodeURIComponent(idValue(d)));
-    ratio = d.avg;
+    ratio = parseFloat(d.avg).toFixed(2);
     return d3.event.preventDefault();
   };
   hashchange = function() {

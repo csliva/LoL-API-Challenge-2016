@@ -84,6 +84,7 @@ var IndexLayout = React.createClass({
           <div id='index-layout-inner'>
 	      <AppHeader parent={this} />
               {bodyView}
+	      <AppFooter />
           </div>
         );
     }
@@ -198,9 +199,9 @@ var AppPanelOne = React.createClass({
                 <div className="col-xs-12">
                   <div className="wtdwm-well scroll-list-well eq-content">
                     <div className="scroll-list">
-                    <p>View State: {this.props.viewstate}</p>
                     {this.props.champData.map(function(item, i){
                     var champIcon = champAvatar + item.playericon + ".png"
+                    var percentage = parseFloat(item.avg).toFixed(2);
                     return(
                     <div key={item.tablekey} className="col-xs-12">
                         <div id="champ-item">
@@ -218,7 +219,7 @@ var AppPanelOne = React.createClass({
 			      <td><img className="avatar" src={champIcon} alt="Stand In Avatar" /></td>
                               <td>{item.playername}</td>
                               <td>{item.count}</td>
-                              <td>{item.avg}</td>
+                              <td>{percentage}</td>
                             </tr>
                           </tbody>
                         </table>
@@ -253,9 +254,9 @@ var AppPanelTwo = React.createClass({
                 <div className="col-xs-12">
                   <div className="wtdwm-well scroll-list-well eq-content">
                     <div className="scroll-list">
-                    <p>View State: {this.props.viewstate}</p>
                     {this.props.champData.map(function(item, i){
                     var champIcon = champAvatar + item.playericon + ".png"
+                    var percentage = parseFloat(item.avg).toFixed(2);
                     return(
                     <div key={item.tablekey} className="col-xs-12">
                         <div id="champ-item">
@@ -273,7 +274,7 @@ var AppPanelTwo = React.createClass({
 			      <td><img className="avatar" src={champIcon} alt="Stand In Avatar" /></td>
                               <td>{item.playername}</td>
                               <td>{item.sum}</td>
-                              <td>{item.avg}</td>
+                              <td>{percentage}</td>
                             </tr>
                           </tbody>
                         </table>
@@ -308,9 +309,9 @@ var AppPanelThree = React.createClass({
                 <div className="col-xs-12">
                   <div className="wtdwm-well scroll-list-well eq-content">
                     <div className="scroll-list">
-                    <p>View State: {this.props.viewstate}</p>
                     {this.props.champData.map(function(item, i){
                     var champIcon = champAvatar + item.playericon + ".png"
+                    var percentage = parseFloat(item.avg).toFixed(2);
                     return(
                     <div key={item.tablekey} className="col-xs-12">
                         <div id="champ-item">
@@ -328,7 +329,7 @@ var AppPanelThree = React.createClass({
 			      <td><img className="avatar" src={champIcon} alt="Stand In Avatar" /></td>
                               <td>{item.playername}</td>
                               <td>{item.count}</td>
-                              <td>{item.avg}</td>
+                              <td>{percentage}</td>
                             </tr>
                           </tbody>
                         </table>
@@ -365,7 +366,6 @@ var AppPanelFour = React.createClass({
                 <div className="col-xs-12">
                   <div className="wtdwm-well scroll-list-well eq-content">
                     <div className="scroll-list">
-                    <p>View State: {this.props.viewstate}</p>
                     {this.props.champData.map(function(item, i){
                     var champIcon = champAvatar + i + ".png"
                     return(
@@ -431,7 +431,8 @@ var AppFooter = React.createClass({
         return (
           <footer id="riotapp-footer">
             <div className="container">
-              <p>Footer Menu</p>
+              <h5>© 2016. What's the deal with Mastery isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends. League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc. League of Legends © Riot Games, Inc.</h5>
+            <a href="https://github.com/csliva/LoL-API-Challenge-2016"><h4>Built By Colt Sliva and Kyle Treptow</h4></a>
             </div>
           </footer>
         );
